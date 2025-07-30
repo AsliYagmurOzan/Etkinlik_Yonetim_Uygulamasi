@@ -1,31 +1,29 @@
-using System.Diagnostics;
+using EtkinlikYonetim.Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc;
-using EtkinlikYonetim.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace EtkinlikYonetim.Controllers;
-
-public class HomeController : Controller
+namespace EtkinlikYonetim.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly EventDbContext _context;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public HomeController(EventDbContext context)
+        {
+            _context = context;
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        [HttpGet]
+        public IActionResult Index()
+        {
+            ViewBag.FullName = HttpContext.Session.GetString("UserName") ?? "Misafir Kullanıcı";
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var etkinlikler = _context.Events
+                .Where(e => e.StartDate >= DateTime.Now && e.IsActive)
+                .OrderBy(e => e.StartDate)
+                .ToList();
+
+            return View(etkinlikler);
+        }
     }
 }

@@ -1,0 +1,16 @@
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\bin\Debug\net9.0\EtkinlikYonetim.Application.deps.json
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\bin\Debug\net9.0\EtkinlikYonetim.Application.dll
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\bin\Debug\net9.0\EtkinlikYonetim.Application.pdb
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\bin\Debug\net9.0\EtkinlikYonetim.Domain.dll
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\bin\Debug\net9.0\EtkinlikYonetim.Domain.pdb
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\EtkinlikYonetim.Application.csproj.AssemblyReference.cache
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\EtkinlikYonetim.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\EtkinlikYonetim.Application.AssemblyInfoInputs.cache
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\EtkinlikYonetim.Application.AssemblyInfo.cs
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\EtkinlikYonetim.Application.csproj.CoreCompileInputs.cache
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\EtkinlikYonetim.Application.sourcelink.json
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\Etkinlik.9976A5FB.Up2Date
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\EtkinlikYonetim.Application.dll
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\refint\EtkinlikYonetim.Application.dll
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\EtkinlikYonetim.Application.pdb
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Application\obj\Debug\net9.0\ref\EtkinlikYonetim.Application.dll

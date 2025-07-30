@@ -1,0 +1,12 @@
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\bin\Debug\net9.0\EtkinlikYonetim.Domain.deps.json
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\bin\Debug\net9.0\EtkinlikYonetim.Domain.dll
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\bin\Debug\net9.0\EtkinlikYonetim.Domain.pdb
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\EtkinlikYonetim.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\EtkinlikYonetim.Domain.AssemblyInfoInputs.cache
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\EtkinlikYonetim.Domain.AssemblyInfo.cs
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\EtkinlikYonetim.Domain.csproj.CoreCompileInputs.cache
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\EtkinlikYonetim.Domain.sourcelink.json
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\EtkinlikYonetim.Domain.dll
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\refint\EtkinlikYonetim.Domain.dll
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\EtkinlikYonetim.Domain.pdb
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim.Domain\obj\Debug\net9.0\ref\EtkinlikYonetim.Domain.dll

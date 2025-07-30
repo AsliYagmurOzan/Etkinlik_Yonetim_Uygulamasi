@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "EtkinlikYonetim.Application/1.0.0": {
+        "dependencies": {
+          "EtkinlikYonetim.Domain": "1.0.0"
+        },
+        "runtime": {
+          "EtkinlikYonetim.Application.dll": {}
+        }
+      },
+      "EtkinlikYonetim.Domain/1.0.0": {
+        "runtime": {
+          "EtkinlikYonetim.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "EtkinlikYonetim.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "EtkinlikYonetim.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
