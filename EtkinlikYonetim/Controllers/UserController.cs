@@ -9,15 +9,15 @@ namespace EtkinlikYonetim.Controllers
     public class UserController : Controller
     {
         private readonly EventDbContext _context;
-        private readonly PasswordHasher _passwordHasher;
+        private readonly PasswordEncryptor _passwordEncryptor;
 
         public UserController(EventDbContext context)
         {
             _context = context;
-            _passwordHasher = new PasswordHasher();
+            _passwordEncryptor = new PasswordEncryptor();
         }
 
-        //Kayıt alma
+        // Kayıt alma
         [HttpGet]
         public IActionResult Create()
         {
@@ -40,13 +40,13 @@ namespace EtkinlikYonetim.Controllers
                 return View(model);
             }
 
-            var hashedPassword = _passwordHasher.HashPassword(model.Password);
+            var encryptedPassword = _passwordEncryptor.Encrypt(model.Password);
 
             var user = new User
             {
                 FullName = model.FullName,
                 Email = model.Email,
-                PasswordHash = hashedPassword,
+                EncryptedPassword = encryptedPassword,
                 DateOfBirth = model.DateOfBirth.Value,
                 CreatedAt = DateTime.Now
             };
@@ -58,7 +58,6 @@ namespace EtkinlikYonetim.Controllers
             return RedirectToAction("Login");
         }
 
-        //Giriş
         [HttpGet]
         public IActionResult Login()
         {
@@ -72,18 +71,97 @@ namespace EtkinlikYonetim.Controllers
                 return View(model);
 
             var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
-            if (user == null || !_passwordHasher.VerifyPassword(model.Password, user.PasswordHash))
+            if (user == null)
             {
                 ModelState.AddModelError("", "Geçersiz e-posta veya parola.");
                 return View(model);
             }
 
+            string decryptedPassword;
+            try
+            {
+                decryptedPassword = _passwordEncryptor.Decrypt(user.EncryptedPassword);
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Parola doğrulama sırasında bir hata oluştu.");
+                return View(model);
+            }
+
+            if (model.Password != decryptedPassword)
+            {
+                ModelState.AddModelError("", "Geçersiz e-posta veya parola.");
+                return View(model);
+            }
+
+            // ✅ Session bilgilerini set et
+            HttpContext.Session.SetInt32("UserId", user.Id); // ← BU SATIR EKLENDİ
             HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetString("UserName", user.FullName);
 
             return RedirectToAction("Index", "Home");
         }
-        //Çıkış
+
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null) return RedirectToAction("Login");
+
+            var model = new UpdateProfileViewModel
+            {
+                Email = user.Email,
+                FullName = user.FullName,
+                BirthDate = user.DateOfBirth,
+                CurrentPassword = "",
+                NewPassword = ""
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult Profile(UpdateProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var userId = HttpContext.Session.GetInt32("UserId");
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (user == null) return RedirectToAction("Login");
+
+            var currentDecrypted = _passwordEncryptor.Decrypt(user.EncryptedPassword);
+            if (model.CurrentPassword != currentDecrypted)
+            {
+                ModelState.AddModelError("CurrentPassword", "Mevcut parola yanlış.");
+                return View(model);
+            }
+
+            if (model.Email != user.Email &&
+                _context.Users.Any(u => u.Email == model.Email))
+            {
+                ModelState.AddModelError("Email", "Bu mail adresi başka bir kullanıcıya ait.");
+                return View(model);
+            }
+
+            user.Email = model.Email;
+            user.FullName = model.FullName;
+            user.DateOfBirth = model.BirthDate;
+
+            if (!string.IsNullOrWhiteSpace(model.NewPassword))
+            {
+                user.EncryptedPassword = _passwordEncryptor.Encrypt(model.NewPassword);
+            }
+
+            HttpContext.Session.SetString("UserEmail", user.Email);
+            HttpContext.Session.SetString("UserName", user.FullName);
+
+            _context.SaveChanges();
+            ViewBag.Success = "Profil başarıyla güncellendi.";
+            return View(model);
+        }
+
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();

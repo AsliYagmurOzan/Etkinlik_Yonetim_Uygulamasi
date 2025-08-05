@@ -16,7 +16,7 @@ namespace EtkinlikYonetim.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.FullName = HttpContext.Session.GetString("UserName") ?? "Misafir Kullanıcı";
+            ViewBag.FullName = HttpContext.Session.GetString("FullName") ?? "Misafir Kullanıcı";
 
             var etkinlikler = _context.Events
                 .Where(e => e.StartDate >= DateTime.Now && e.IsActive)
