@@ -1,0 +1,45 @@
+@model EtkinlikYonetim.Domain.Entities.Event
+
+@{
+    ViewData["Title"] = "Etkinlik Detayları";
+    var recentEvents = ViewBag.RecentEvents as List<EtkinlikYonetim.Domain.Entities.Event>;
+}
+
+<div class="container mt-4">
+    <a asp-controller="Event" asp-action="Index" class="btn btn-secondary mb-3">← Etkinlik Listesine Dön</a>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+            <div class="col-md-5">
+                <img src="@Model.ImagePath" class="img-fluid rounded-start w-100" alt="Etkinlik Görseli" />
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Title</h3>
+                    <p class="card-text">
+                        <strong>Başlangıç:</strong> @Model.StartDate.ToString("dd.MM.yyyy HH:mm")<br />
+                        <strong>Bitiş:</strong> @Model.EndDate.ToString("dd.MM.yyyy HH:mm")
+                    </p>
+                    <hr />
+                    <div class="card-text">
+                        @Html.Raw(Model.LongDescription) <!-- HTML içeriği -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (recentEvents != null && recentEvents.Any())
+    {
+        <h5>Yaklaşan Diğer Etkinlikler</h5>
+        <ul class="list-group">
+            @foreach (var etkinlik in recentEvents)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>@etkinlik.Title</span>
+                    <a asp-action="Details" asp-route-id="@etkinlik.Id" class="btn btn-sm btn-outline-primary">Detay</a>
+                </li>
+            }
+        </ul>
+    }
+</div>

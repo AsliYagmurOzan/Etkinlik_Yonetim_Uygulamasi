@@ -4,28 +4,52 @@
     ViewData["Title"] = "Ana Sayfa";
 }
 
-<h2 class="mb-4">Etkinlikler</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">Etkinlikler</h2>
 
-@if (Model != null && Model.Any())
-{
-    @foreach (var etkinlik in Model)
+    @* Başlık, açıklama ve görsel *@
+    <div class="mb-4 text-center">
+        <h4>Etkinlik Yönetim Uygulamasına Hoş Geldiniz!</h4>
+        <p>Yaklaşan etkinlikleri buradan görüntüleyebilirsiniz.</p>
+        <img src="https://via.placeholder.com/600x200?text=Etkinlik+Yönetimi" class="img-fluid rounded" alt="Açıklayıcı Görsel" />
+    </div>
+
+    @* Etkinlik Listesi *@
+    @if (Model != null && Model.Any())
     {
-        <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-                <h4 class="card-title">@etkinlik.Title</h4>
-                <p class="card-text">
-                    <strong>Tarih:</strong> @etkinlik.StartDate.ToString("dd.MM.yyyy")<br />
-                    <strong>Saat:</strong> @etkinlik.StartDate.ToString("HH:mm")
-                </p>
-                <p>@etkinlik.ShortDescription</p>
-                <a asp-controller="Event" asp-action="Details" asp-route-id="@etkinlik.Id" class="btn btn-sm btn-primary">Detay</a>
+        @foreach (var etkinlik in Model)
+        {
+            <div class="card mb-3 shadow-sm">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        @if (!string.IsNullOrEmpty(etkinlik.ImagePath))
+                        {
+                            <img src="@etkinlik.ImagePath" class="img-fluid rounded-start" alt="Etkinlik Görseli" />
+                        }
+                        else
+                        {
+                            <img src="https://via.placeholder.com/400x200?text=Etkinlik+Görseli+Yok" class="img-fluid rounded-start" alt="Görsel yok" />
+                        }
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@etkinlik.Title</h5>
+                            <p class="card-text">
+                                <strong>Başlangıç:</strong> @etkinlik.StartDate.ToString("dd.MM.yyyy HH:mm") <br />
+                                <strong>Bitiş:</strong> @etkinlik.EndDate.ToString("dd.MM.yyyy HH:mm")
+                            </p>
+                            <p class="card-text">@etkinlik.ShortDescription</p>
+                            <a asp-controller="Event" asp-action="Details" asp-route-id="@etkinlik.Id" class="btn btn-sm btn-primary">Detay</a>
+                        </div>
+                    </div>
+                </div>
             </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Henüz görüntülenecek etkinlik bulunmamaktadır.
         </div>
     }
-}
-else
-{
-    <div class="alert alert-info">
-        Henüz kayıtlı bir etkinlik bulunmamaktadır.
-    </div>
-}
+</div>

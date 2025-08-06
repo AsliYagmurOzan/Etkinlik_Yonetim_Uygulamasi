@@ -1,8 +1,8 @@
 using EtkinlikYonetim.Domain.Entities;
 using EtkinlikYonetim.Infrastructure.Context;
 using EtkinlikYonetim.Models;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EtkinlikYonetim.Controllers
 {
@@ -16,11 +16,35 @@ namespace EtkinlikYonetim.Controllers
             _context = context;
             _env = env;
         }
-
         public IActionResult Index()
         {
-            var events = _context.Events.OrderBy(e => e.StartDate).ToList();
+            var events = _context.Events
+                .Include(e => e.CreatorUser) // ← ilişkili kullanıcıyı getir
+                .OrderBy(e => e.StartDate)
+                .ToList();
+
             return View(events);
+        }
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var ev = _context.Events
+                .Include(e => e.CreatorUser)
+                .FirstOrDefault(e => e.Id == id);
+
+            if (ev == null)
+                return NotFound();
+
+            // Son 5 etkinlik (şu andan sonraki ve aktif olanlardan)
+            var recentEvents = _context.Events
+                .Where(e => e.StartDate > DateTime.Now && e.IsActive && e.Id != id)
+                .OrderBy(e => e.StartDate)
+                .Take(5)
+                .ToList();
+
+            ViewBag.RecentEvents = recentEvents;
+
+            return View(ev);
         }
 
         [HttpGet]

@@ -75,6 +75,9 @@
         <a asp-action="Index" class="btn btn-secondary ms-2">İptal</a>
     </div>
 </form>
+<form asp-action="Delete" method="post" asp-route-id="@Model.Id" onsubmit="return confirm('Bu etkinliği silmek istediğinize emin misiniz?');">
+    <button type="submit" class="btn btn-danger mt-2">Etkinliği Sil</button>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

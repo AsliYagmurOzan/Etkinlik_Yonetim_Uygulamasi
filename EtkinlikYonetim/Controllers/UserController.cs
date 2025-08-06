@@ -161,6 +161,11 @@ namespace EtkinlikYonetim.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
         public IActionResult Logout()
         {

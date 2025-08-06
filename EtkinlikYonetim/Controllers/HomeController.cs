@@ -13,15 +13,20 @@ namespace EtkinlikYonetim.Controllers
             _context = context;
         }
 
-        [HttpGet]
+[HttpGet]
         public IActionResult Index()
         {
+            // Session'dan kullanıcı adı alınır
             ViewBag.FullName = HttpContext.Session.GetString("FullName") ?? "Misafir Kullanıcı";
 
+            // Şu andan sonraki ve aktif etkinlikler alınır
             var etkinlikler = _context.Events
                 .Where(e => e.StartDate >= DateTime.Now && e.IsActive)
                 .OrderBy(e => e.StartDate)
                 .ToList();
+
+            // Debug amaçlı sayıya bak
+            ViewBag.Count = etkinlikler.Count;
 
             return View(etkinlikler);
         }
