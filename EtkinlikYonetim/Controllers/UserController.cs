@@ -11,32 +11,38 @@ namespace EtkinlikYonetim.Controllers
         private readonly EventDbContext _context;
         private readonly PasswordEncryptor _passwordEncryptor;
 
-        public UserController(EventDbContext context)
+        public UserController(EventDbContext context, PasswordEncryptor passwordEncryptor)
         {
             _context = context;
-            _passwordEncryptor = new PasswordEncryptor();
+            _passwordEncryptor = passwordEncryptor;
         }
 
-        // Kayıt alma
         [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(UserViewModel model)
         {
-            if (!ModelState.IsValid || model.DateOfBirth == null)
+            if (!ModelState.IsValid)
+                return View(model);
+
+            if (model.DateOfBirth == null)
             {
-                if (model.DateOfBirth == null)
-                    ModelState.AddModelError("DateOfBirth", "Doğum tarihi zorunludur.");
+                ModelState.AddModelError(nameof(UserViewModel.DateOfBirth), "Doğum tarihi zorunludur.");
                 return View(model);
             }
 
-            if (_context.Users.Any(u => u.Email == model.Email))
+            if (model.DateOfBirth > DateTime.Today)
             {
-                ModelState.AddModelError("Email", "Bu e-posta adresi zaten kayıtlı.");
+                ModelState.AddModelError(nameof(UserViewModel.DateOfBirth), "Doğum tarihi bugünden ileri bir tarih olamaz.");
+                return View(model);
+            }
+
+            var email = model.Email?.Trim() ?? string.Empty;
+            if (_context.Users.Any(u => string.Equals(u.Email, email, StringComparison.OrdinalIgnoreCase)))
+            {
+                ModelState.AddModelError(nameof(UserViewModel.Email), "Bu e-posta adresi zaten kayıtlı.");
                 return View(model);
             }
 
@@ -44,8 +50,8 @@ namespace EtkinlikYonetim.Controllers
 
             var user = new User
             {
-                FullName = model.FullName,
-                Email = model.Email,
+                FullName = model.FullName?.Trim(),
+                Email = email,
                 EncryptedPassword = encryptedPassword,
                 DateOfBirth = model.DateOfBirth.Value,
                 CreatedAt = DateTime.Now
@@ -54,26 +60,28 @@ namespace EtkinlikYonetim.Controllers
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            TempData["Success"] = "Kayıt başarılı!";
+            TempData["Success"] = "Kayıt başarılı! Giriş yapabilirsiniz.";
             return RedirectToAction("Login");
         }
 
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
-            var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
+            var email = model.Email?.Trim();
+
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+
             if (user == null)
             {
-                ModelState.AddModelError("", "Geçersiz e-posta veya parola.");
+                ModelState.AddModelError(nameof(LoginViewModel.Email),
+                    "Bu e-posta adresi ile kayıtlı bir kullanıcı bulunamadı.");
                 return View(model);
             }
 
@@ -84,23 +92,25 @@ namespace EtkinlikYonetim.Controllers
             }
             catch
             {
-                ModelState.AddModelError("", "Parola doğrulama sırasında bir hata oluştu.");
+                ModelState.AddModelError(nameof(LoginViewModel.Password),
+                    "Parola doğrulama sırasında bir hata oluştu.");
                 return View(model);
             }
 
-            if (model.Password != decryptedPassword)
+            if (!string.Equals(model.Password, decryptedPassword))
             {
-                ModelState.AddModelError("", "Geçersiz e-posta veya parola.");
+                ModelState.AddModelError(nameof(LoginViewModel.Password),
+                    "Parola hatalı. Lütfen tekrar deneyin.");
                 return View(model);
             }
 
-            // ✅ Session bilgilerini set et
-            HttpContext.Session.SetInt32("UserId", user.Id); // ← BU SATIR EKLENDİ
+            HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetString("UserName", user.FullName);
 
             return RedirectToAction("Index", "Home");
         }
+
 
         [HttpGet]
         public IActionResult Profile()
@@ -120,11 +130,12 @@ namespace EtkinlikYonetim.Controllers
 
             return View(model);
         }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Profile(UpdateProfileViewModel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            if (!ModelState.IsValid) return View(model);
 
             var userId = HttpContext.Session.GetInt32("UserId");
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
@@ -137,8 +148,7 @@ namespace EtkinlikYonetim.Controllers
                 return View(model);
             }
 
-            if (model.Email != user.Email &&
-                _context.Users.Any(u => u.Email == model.Email))
+            if (model.Email != user.Email && _context.Users.Any(u => u.Email == model.Email))
             {
                 ModelState.AddModelError("Email", "Bu mail adresi başka bir kullanıcıya ait.");
                 return View(model);
@@ -149,23 +159,18 @@ namespace EtkinlikYonetim.Controllers
             user.DateOfBirth = model.BirthDate;
 
             if (!string.IsNullOrWhiteSpace(model.NewPassword))
-            {
                 user.EncryptedPassword = _passwordEncryptor.Encrypt(model.NewPassword);
-            }
+
+            _context.SaveChanges();
 
             HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetString("UserName", user.FullName);
 
-            _context.SaveChanges();
             ViewBag.Success = "Profil başarıyla güncellendi.";
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+        public IActionResult AccessDenied() => View();
 
         public IActionResult Logout()
         {

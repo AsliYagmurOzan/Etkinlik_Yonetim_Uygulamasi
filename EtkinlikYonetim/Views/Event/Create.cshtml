@@ -16,7 +16,6 @@
 }
 
 <form asp-action="Create" method="post" enctype="multipart/form-data">
-    @* Sadece model düzeyindeki genel hataları gösterir *@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="form-group mt-2">
@@ -45,9 +44,13 @@
 
     <div class="form-group mt-2">
         <label asp-for="ShortDescription"></label>
-        <textarea asp-for="ShortDescription" class="form-control" rows="2"></textarea>
+        <textarea asp-for="ShortDescription" 
+                class="form-control" 
+                maxlength="512" 
+                rows="2"></textarea>
         <span asp-validation-for="ShortDescription" class="text-danger"></span>
     </div>
+
 
     <div class="form-group mt-2">
         <label asp-for="LongDescription"></label>
@@ -67,5 +70,18 @@
 </form>
 
 @section Scripts {
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea[name="LongDescription"]',
+            menubar: false,
+            plugins: 'lists link image code',
+            toolbar: 'undo redo | bold italic underline | bullist numlist | link image | code',
+            height: 300
+        });
+    </script>
+
     <partial name="_ValidationScriptsPartial" />
 }
+
+

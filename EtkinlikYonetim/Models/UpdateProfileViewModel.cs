@@ -8,10 +8,9 @@ namespace EtkinlikYonetim.Models
         [Required, EmailAddress]
         public string Email { get; set; } = string.Empty;
 
-        [Required] // Güncelleme için mevcut parolayı doğrulamak zorundayız
+        [Required] 
         public string CurrentPassword { get; set; } = string.Empty;
 
-        // Yeni parola boş bırakılırsa değişmeyecek
         [MinLength(8)]
         [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$",
             ErrorMessage = "Yeni parola en az bir büyük harf, bir küçük harf ve bir rakam içermelidir.")]

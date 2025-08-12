@@ -1,31 +1,42 @@
-html {
-  font-size: 14px;
+:root{
+  --brand-50:#FFF6ED;
+  --brand-100:#FFE8D3;
+  --brand-200:#FFD0A8;
+  --brand-300:#FFB173;
+  --brand-400:#FF8F3D;
+  --brand-500:#FF7F11; 
+  --brand-600:#E85D04; 
+  --brand-700:#D94E04;
+  --brand-800:#C44502;
+  --brand-900:#9A2C02; 
+  --ink-900:#111318;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.navbar-custom{
+  background-color: var(--brand-900);
+}
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link{
+  color: var(--brand-50) !important;
+  opacity:.95;
+}
+.navbar-custom .nav-link:hover,
+.navbar-custom .nav-link.active{
+  color:#ffffff !important;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+.btn-primary{
+  background-color: var(--brand-600);
+  border-color: var(--brand-700);
+}
+.btn-primary:hover{
+  background-color: var(--brand-700);
+  border-color: var(--brand-800);
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
+a{ color: var(--brand-600); }
+a:hover{ color: var(--brand-700); }
 
-body {
-  margin-bottom: 60px;
-}
+body{ background: var(--brand-50); }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
-}
-
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
-}
+.card{ border-color: color-mix(in srgb, var(--brand-600) 10%, #0000); }

@@ -1,0 +1,81 @@
+@model IEnumerable<EtkinlikYonetim.Domain.Entities.Event>
+@using System.Linq
+
+@{
+    ViewData["Title"] = "Etkinlik Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var now = DateTime.Now;
+    var eventsQuery = (Model ?? Enumerable.Empty<EtkinlikYonetim.Domain.Entities.Event>())
+        .Where(e => e != null && e.IsActive && e.StartDate >= now);
+
+    var list = eventsQuery
+        .OrderByDescending(e => e.StartDate)
+        .ToList();
+
+    string ImgPath(string? p) =>
+        string.IsNullOrWhiteSpace(p)
+            ? Url.Content("~/images/placeholder-event.jpg")
+            : Url.Content(p.StartsWith("~") ? p : "~/" + p.TrimStart('/'));
+}
+
+<div class="container">
+    <div class="row align-items-center mb-4">
+        <div class="col-md-8">
+            <h1 class="display-6 mb-2">Etkinlik Yönetim</h1>
+            <p class="text-muted mb-0">
+                Yaklaşan ve aktif etkinlikleri buradan takip edebilir, detaylarını inceleyebilirsin.
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <img src="~/images/hero-events.jpg" alt="Etkinlikler" class="img-fluid rounded"
+                 style="max-height:120px; object-fit:cover;">
+        </div>
+    </div>
+
+    @if (!list.Any())
+    {
+        <div class="alert alert-info">Şu anda görüntülenecek etkinlik bulunmuyor.</div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+            @foreach (var item in list)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="@ImgPath(item.ImagePath)" class="card-img-top" alt="@item.Title"
+                             style="height:180px; object-fit:cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@item.Title</h5>
+
+                            <div class="small text-muted mb-2">
+                                <div><strong>Başlangıç:</strong> @item.StartDate.ToString("dd.MM.yyyy HH:mm")</div>
+                                <div><strong>Bitiş:</strong> @item.EndDate.ToString("dd.MM.yyyy HH:mm")</div>
+                            </div>
+
+                            <p class="card-text flex-grow-1">
+                                @{
+                                    var s = string.IsNullOrWhiteSpace(item.ShortDescription)
+                                        ? "Açıklama yakında eklenecek."
+                                        : item.ShortDescription;
+                                    if (s.Length > 160) s = s.Substring(0, 160) + "…";
+                                }
+                                @s
+                            </p>
+
+                            <div class="mt-2">
+                                <a class="btn btn-primary w-100"
+                                   asp-controller="Event"
+                                   asp-action="Details"
+                                   asp-route-id="@item.Id">
+                                    Detay
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,101 @@
+@{
+    ViewData["Title"] = "Takvim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet" />
+
+<h2>Etkinlik Takvimi</h2>
+
+<a class="btn btn-secondary mb-3" asp-controller="Event" asp-action="List">Etkinlik Listesine Git</a>
+
+<div class="mx-auto" style="max-width: 1000px;">
+    <div id="calendar"></div>
+</div>
+
+@section Styles {
+    <style>
+        .btn-secondary {
+            background-color: #d35400 !important;
+            border: none !important;
+            color: #fff !important;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e67e22 !important; 
+            color: #fff !important;
+        }
+
+        .fc .fc-button-primary {
+            background-color: #d35400 !important; 
+            border: none !important;
+            color: #fff !important;
+        }
+
+        .fc .fc-button-primary:hover {
+            background-color: #e67e22 !important; 
+            color: #fff !important;
+        }
+
+        .fc-event {
+            background-color: #3498db !important; 
+            border: none !important;
+            color: #fff !important;
+        }
+
+        .fc-event:hover {
+            background-color: #217dbb !important; 
+        }
+
+        .fc .fc-toolbar-title {
+            color: #d35400 !important;
+        }
+
+        .fc .fc-col-header-cell-cushion {
+            color: #d35400 !important;
+        }
+    </style>
+}
+
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var isMobile = window.matchMedia('(max-width: 768px)').matches;
+            var initial = isMobile ? 'listWeek' : 'dayGridMonth';
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: initial,
+                locale: 'tr',
+                timeZone: 'local',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,listWeek'
+                },
+                height: 'auto',
+                contentHeight: 'auto',
+                aspectRatio: 1.15,      
+                expandRows: false,       
+                dayMaxEventRows: 2,      
+                
+                buttonText: {
+                    today: 'bugün',
+                    month: 'ay',
+                    week: 'hafta',
+                    list: 'liste'
+                },
+
+                events: '/Calendar/GetEvents',
+                eventClick: function (info) {
+                    window.location.href = '/Event/Details/' + info.event.id;
+                }
+            });
+
+            calendar.render();
+        });
+    </script>
+}

@@ -19,12 +19,28 @@ namespace EtkinlikYonetim.Controllers
         public IActionResult Index()
         {
             var events = _context.Events
-                .Include(e => e.CreatorUser) // ← ilişkili kullanıcıyı getir
-                .OrderBy(e => e.StartDate)
+                .Include(e => e.CreatorUser) 
+                .OrderByDescending(e => e.CreatedAt)
+                .ThenBy(e => e.StartDate)
                 .ToList();
 
             return View(events);
         }
+        public IActionResult List()
+        {
+            var now = DateTime.Now;
+
+            var events = _context.Events
+                .AsNoTracking()
+                .Where(e => e.IsActive && e.StartDate >= now)
+                .OrderByDescending(e => e.CreatedAt)
+                .ThenBy(e => e.StartDate)
+                .ToList();
+
+            return View(events);
+        }
+
+
         [HttpGet]
         public IActionResult Details(int id)
         {
@@ -35,7 +51,6 @@ namespace EtkinlikYonetim.Controllers
             if (ev == null)
                 return NotFound();
 
-            // Son 5 etkinlik (şu andan sonraki ve aktif olanlardan)
             var recentEvents = _context.Events
                 .Where(e => e.StartDate > DateTime.Now && e.IsActive && e.Id != id)
                 .OrderBy(e => e.StartDate)
@@ -157,33 +172,28 @@ namespace EtkinlikYonetim.Controllers
                 ExistingImagePath = ev.ImagePath
             };
 
-            return View("Edit", model); // ← 🔧 burada düzeltme yapıldı
+            return View("Edit", model);
         }
         [HttpPost]
         public IActionResult Edit(EventFormViewModel model)
         {
-            // 1. Form doğrulama
             if (!ModelState.IsValid)
             {
                 TempData["Error"] = "Form verileri geçerli değil.";
-                return View("Edit", model); // ❗️ View adı düzeltildi
+                return View("Edit", model);
             }
 
-            // 2. Oturum kontrolü
             var userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
                 return RedirectToAction("Login", "User");
 
-            // 3. Etkinliği veritabanından al
             var ev = _context.Events.Find(model.Id);
             if (ev == null)
                 return NotFound();
 
-            // 4. Yetki kontrolü: Sadece kendi etkinliğini düzenleyebilir
             if (ev.CreatorUserId != userId)
                 return Forbid();
 
-            // 5. Bilgileri güncelle
             ev.Title = model.Title;
             ev.StartDate = model.StartDate;
             ev.EndDate = model.EndDate;
@@ -191,7 +201,6 @@ namespace EtkinlikYonetim.Controllers
             ev.LongDescription = model.LongDescription;
             ev.IsActive = model.IsActive;
 
-            // 6. Yeni görsel yüklendiyse işleme al
             if (model.ImageFile != null)
             {
                 var ext = Path.GetExtension(model.ImageFile.FileName).ToLower();
@@ -200,10 +209,9 @@ namespace EtkinlikYonetim.Controllers
                 if (!allowed.Contains(ext) || model.ImageFile.Length > 2 * 1024 * 1024)
                 {
                     ModelState.AddModelError("ImageFile", "Yalnızca JPG, JPEG veya PNG uzantılı ve 2MB'dan küçük dosyalar kabul edilir.");
-                    return View("Edit", model); // ❗️ View adı düzeltildi
+                    return View("Edit", model);
                 }
 
-                // Eski görseli sil (isteğe bağlı olarak)
                 if (!string.IsNullOrEmpty(ev.ImagePath))
                 {
                     var oldPath = Path.Combine(_env.WebRootPath, ev.ImagePath.TrimStart('/'));
@@ -211,7 +219,6 @@ namespace EtkinlikYonetim.Controllers
                         System.IO.File.Delete(oldPath);
                 }
 
-                // Yeni görseli kaydet
                 string fileName = Guid.NewGuid() + ext;
                 string uploadPath = Path.Combine(_env.WebRootPath, "uploads");
                 if (!Directory.Exists(uploadPath))
@@ -224,7 +231,6 @@ namespace EtkinlikYonetim.Controllers
                 ev.ImagePath = "/uploads/" + fileName;
             }
 
-            // 7. Kaydet
             _context.SaveChanges();
             TempData["Success"] = "Etkinlik başarıyla güncellendi.";
             return RedirectToAction("Index");
@@ -241,7 +247,6 @@ namespace EtkinlikYonetim.Controllers
             if (ev == null)
                 return NotFound();
 
-            // Yine yetki kontrolü
             if (ev.CreatorUserId != userId)
                 return Forbid();
 

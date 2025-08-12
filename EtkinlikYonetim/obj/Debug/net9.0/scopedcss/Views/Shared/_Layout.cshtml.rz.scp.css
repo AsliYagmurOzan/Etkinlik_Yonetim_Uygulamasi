@@ -1,48 +1,63 @@
-/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand[b-cb6di6jnmp] {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+:root[b-cb6di6jnmp] {
+    --primary-color: #e65100; 
+    --primary-hover: #bf360c;
+    --accent-color: #ffcc80;  
+    --text-light: #fff;
 }
 
 a[b-cb6di6jnmp] {
-  color: #0077cc;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+a:hover[b-cb6di6jnmp] {
+    color: var(--primary-hover);
+}
+
+.navbar[b-cb6di6jnmp] {
+    background-color: var(--primary-color) !important;
+}
+.navbar .nav-link[b-cb6di6jnmp],
+.navbar .navbar-brand[b-cb6di6jnmp] {
+    color: var(--text-light) !important;
+}
+.navbar .nav-link:hover[b-cb6di6jnmp],
+.navbar .navbar-brand:hover[b-cb6di6jnmp] {
+    color: var(--accent-color) !important;
 }
 
 .btn-primary[b-cb6di6jnmp] {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: var(--text-light);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-primary:hover[b-cb6di6jnmp] {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
 }
 
-.nav-pills .nav-link.active[b-cb6di6jnmp], .nav-pills .show > .nav-link[b-cb6di6jnmp] {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.btn-outline-secondary[b-cb6di6jnmp] {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-outline-secondary:hover[b-cb6di6jnmp] {
+    color: var(--text-light);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
-.border-top[b-cb6di6jnmp] {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom[b-cb6di6jnmp] {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow[b-cb6di6jnmp] {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy[b-cb6di6jnmp] {
-  font-size: 1rem;
-  line-height: inherit;
+.card-title[b-cb6di6jnmp] {
+    color: var(--primary-color);
 }
 
 .footer[b-cb6di6jnmp] {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 10px 0;
+}
+
+.footer a[b-cb6di6jnmp] {
+    color: var(--accent-color);
+}
+.footer a:hover[b-cb6di6jnmp] {
+    color: var(--text-light);
 }

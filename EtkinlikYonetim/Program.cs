@@ -1,15 +1,16 @@
 using EtkinlikYonetim.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using EtkinlikYonetim.Application.Services.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Servisler
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<EventDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDistributedMemoryCache(); 
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -17,19 +18,19 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// ✅ Sadece altyapı tanımı (kimlik sistemi senin kontrolünde!)
+builder.Services.AddSingleton<PasswordEncryptor>(); 
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/User/Login"; // giriş yapılmamışsa buraya yönlendirir
-        options.AccessDeniedPath = "/User/AccessDenied"; // yetki yoksa
+        options.LoginPath = "/User/Login";
+        options.AccessDeniedPath = "/User/AccessDenied";
     });
 
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -41,8 +42,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseSession(); // Oturum kontrolü için şart
-app.UseAuthentication(); // ✅ EKLENDİ — Forbid, Authorize vs. çalışır
+app.UseSession();          
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
