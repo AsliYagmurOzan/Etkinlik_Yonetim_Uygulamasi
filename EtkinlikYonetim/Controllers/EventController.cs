@@ -1,3 +1,4 @@
+using System.Net;
 using EtkinlikYonetim.Domain.Entities;
 using EtkinlikYonetim.Infrastructure.Context;
 using EtkinlikYonetim.Models;
@@ -132,7 +133,7 @@ namespace EtkinlikYonetim.Controllers
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
                 ShortDescription = model.ShortDescription ?? "",
-                LongDescription = model.LongDescription,
+                LongDescription = WebUtility.HtmlDecode(model.LongDescription), // 🔹 HTML decode
                 IsActive = model.IsActive,
                 ImagePath = imagePath,
                 CreatedAt = DateTime.Now,
@@ -145,7 +146,6 @@ namespace EtkinlikYonetim.Controllers
             TempData["Success"] = "Etkinlik başarıyla oluşturuldu.";
             return RedirectToAction("Index");
         }
-
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -198,7 +198,7 @@ namespace EtkinlikYonetim.Controllers
             ev.StartDate = model.StartDate;
             ev.EndDate = model.EndDate;
             ev.ShortDescription = model.ShortDescription ?? "";
-            ev.LongDescription = model.LongDescription;
+            ev.LongDescription = WebUtility.HtmlDecode(model.LongDescription); // 🔹 HTML decode
             ev.IsActive = model.IsActive;
 
             if (model.ImageFile != null)

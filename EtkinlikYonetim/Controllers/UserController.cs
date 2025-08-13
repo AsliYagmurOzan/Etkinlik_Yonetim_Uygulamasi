@@ -40,7 +40,7 @@ namespace EtkinlikYonetim.Controllers
             }
 
             var email = model.Email?.Trim() ?? string.Empty;
-            if (_context.Users.Any(u => string.Equals(u.Email, email, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Users.Any(u => u.Email == email))
             {
                 ModelState.AddModelError(nameof(UserViewModel.Email), "Bu e-posta adresi zaten kayıtlı.");
                 return View(model);
