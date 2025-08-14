@@ -7,12 +7,12 @@ namespace EtkinlikYonetim.Application.Services
     public class UserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly PasswordHasher _hasher;
+        private readonly PasswordEncryptor _encryptor;
 
-        public UserService(IUserRepository userRepository, PasswordHasher hasher)
+        public UserService(IUserRepository userRepository, PasswordEncryptor encryptor)
         {
             _userRepository = userRepository;
-            _hasher = hasher;
+            _encryptor = encryptor;
         }
 
         public bool Register(User user, string plainPassword)
@@ -20,7 +20,7 @@ namespace EtkinlikYonetim.Application.Services
             if (_userRepository.GetByEmail(user.Email) != null)
                 return false;
 
-            user.PasswordHash = _hasher.HashPassword(plainPassword);
+            user.EncryptedPassword = _encryptor.Encrypt(plainPassword);
             _userRepository.Add(user);
             return true;
         }
@@ -30,7 +30,17 @@ namespace EtkinlikYonetim.Application.Services
             var user = _userRepository.GetByEmail(email);
             if (user == null) return false;
 
-            return _hasher.VerifyPassword(plainPassword, user.PasswordHash);
+            string decryptedPassword;
+            try
+            {
+                decryptedPassword = _encryptor.Decrypt(user.EncryptedPassword);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return plainPassword == decryptedPassword;
         }
     }
 }

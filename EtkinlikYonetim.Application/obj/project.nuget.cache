@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "PtTdmZbwEyY=",
+  "dgSpecHash": "0EJRMCsU+V0=",
   "success": true,
   "projectFilePath": "C:\\Users\\asliy\\Desktop\\Etkinlik_Yonetim_Uygulaması\\EtkinlikYonetim.Application\\EtkinlikYonetim.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\asliy\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\9.0.8\\microsoft.extensions.configuration.abstractions.9.0.8.nupkg.sha512",
+    "C:\\Users\\asliy\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.8\\microsoft.extensions.primitives.9.0.8.nupkg.sha512"
+  ],
   "logs": []
 }

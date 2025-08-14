@@ -12,7 +12,7 @@ namespace EtkinlikYonetim.Domain.Entities
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        //Foreign key 
+        //Foreign key
         public int CreatorUserId { get; set; }
         public User? CreatorUser { get; set; }
     }
