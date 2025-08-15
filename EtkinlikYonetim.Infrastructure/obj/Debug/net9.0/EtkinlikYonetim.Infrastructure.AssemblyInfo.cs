@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EtkinlikYonetim.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8235cb68b1fadcfa14755afe52eb78d5a97dd49a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1f929a9e83847805eb13fdc247885e941d40ffd")]
 [assembly: System.Reflection.AssemblyProductAttribute("EtkinlikYonetim.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EtkinlikYonetim.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
