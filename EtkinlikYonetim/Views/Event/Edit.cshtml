@@ -1,19 +1,12 @@
 @model EtkinlikYonetim.Models.EventFormViewModel
 
+
 @{
     ViewData["Title"] = "Etkinliği Düzenle";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
 
 <form asp-action="Edit" method="post" enctype="multipart/form-data">
     

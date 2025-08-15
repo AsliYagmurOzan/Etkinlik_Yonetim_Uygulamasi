@@ -40,3 +40,22 @@ a:hover{ color: var(--brand-700); }
 body{ background: var(--brand-50); }
 
 .card{ border-color: color-mix(in srgb, var(--brand-600) 10%, #0000); }
+
+.alert-wrap {
+    max-width: 900px;  
+}
+
+.custom-alert {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.welcome-box {
+    background-color: #ffe5b4; 
+    color: #5a3e1b;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 1rem;
+}
+

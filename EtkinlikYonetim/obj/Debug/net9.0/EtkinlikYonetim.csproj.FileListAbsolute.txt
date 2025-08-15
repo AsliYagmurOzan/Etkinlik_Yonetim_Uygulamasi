@@ -159,7 +159,6 @@ C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\ne
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\scopedcss\bundle\EtkinlikYonetim.styles.css
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\scopedcss\projectbundle\EtkinlikYonetim.bundle.scp.css
-C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\compressed\1wm6oe99tx-jajerwddut.gz
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\compressed\ysmtjxii9e-61n19gt1b8.gz
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\compressed\rtcvx0qaox-xtxxf3hu2r.gz
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\compressed\u6rj8n3645-bqjiyaj88i.gz
@@ -233,3 +232,4 @@ C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\ne
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\EtkinlikYonetim.pdb
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\EtkinlikYonetim.genruntimeconfig.cache
 C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\ref\EtkinlikYonetim.dll
+C:\Users\asliy\Desktop\Etkinlik_Yonetim_Uygulaması\EtkinlikYonetim\obj\Debug\net9.0\compressed\1wm6oe99tx-2voiemjeze.gz

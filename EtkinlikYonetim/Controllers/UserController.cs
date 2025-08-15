@@ -61,7 +61,7 @@ namespace EtkinlikYonetim.Controllers
             _context.SaveChanges();
 
             TempData["Success"] = "Kayıt başarılı! Giriş yapabilirsiniz.";
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", new { fromRegister = true });
         }
 
         [HttpGet]
@@ -108,9 +108,10 @@ namespace EtkinlikYonetim.Controllers
             HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetString("UserName", user.FullName);
 
+            TempData["Success"] = "Giriş başarılı! Hoş geldiniz.";
+
             return RedirectToAction("Index", "Home");
         }
-
 
         [HttpGet]
         public IActionResult Profile()
@@ -166,8 +167,8 @@ namespace EtkinlikYonetim.Controllers
             HttpContext.Session.SetString("UserEmail", user.Email);
             HttpContext.Session.SetString("UserName", user.FullName);
 
-            ViewBag.Success = "Profil başarıyla güncellendi.";
-            return View(model);
+            TempData["Success"] = "Profil başarıyla güncellendi.";
+            return RedirectToAction("Profile");
         }
 
         public IActionResult AccessDenied() => View();

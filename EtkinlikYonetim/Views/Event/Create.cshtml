@@ -6,15 +6,6 @@
 
 <h2>@ViewData["Title"]</h2>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
-
 <form asp-action="Create" method="post" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -26,13 +17,21 @@
 
     <div class="form-group mt-2">
         <label asp-for="StartDate"></label>
-        <input asp-for="StartDate" type="datetime-local" class="form-control" />
+        <input asp-for="StartDate"
+        type="datetime-local"
+        class="form-control"
+        asp-format="{0:yyyy-MM-ddTHH:mm}"
+        step="60" />
         <span asp-validation-for="StartDate" class="text-danger"></span>
     </div>
 
     <div class="form-group mt-2">
         <label asp-for="EndDate"></label>
-        <input asp-for="EndDate" type="datetime-local" class="form-control" />
+        <input asp-for="EndDate"
+        type="datetime-local"
+        class="form-control"
+        asp-format="{0:yyyy-MM-ddTHH:mm}"
+        step="60" />
         <span asp-validation-for="EndDate" class="text-danger"></span>
     </div>
 

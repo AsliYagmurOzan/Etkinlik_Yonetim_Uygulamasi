@@ -133,7 +133,7 @@ namespace EtkinlikYonetim.Controllers
                 StartDate = model.StartDate,
                 EndDate = model.EndDate,
                 ShortDescription = model.ShortDescription ?? "",
-                LongDescription = WebUtility.HtmlDecode(model.LongDescription), // 🔹 HTML decode
+                LongDescription = WebUtility.HtmlDecode(model.LongDescription), 
                 IsActive = model.IsActive,
                 ImagePath = imagePath,
                 CreatedAt = DateTime.Now,
@@ -144,7 +144,7 @@ namespace EtkinlikYonetim.Controllers
             _context.SaveChanges();
 
             TempData["Success"] = "Etkinlik başarıyla oluşturuldu.";
-            return RedirectToAction("Index");
+            return RedirectToAction("List");
         }
         [HttpGet]
         public IActionResult Edit(int id)

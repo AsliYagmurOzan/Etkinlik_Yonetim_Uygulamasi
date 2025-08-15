@@ -1,5 +1,5 @@
 @model EtkinlikYonetim.Domain.Entities.Event
-
+@await Html.PartialAsync("_Alert")
 @{
     ViewData["Title"] = "Etkinlik Detayları";
     var recentEvents = ViewBag.RecentEvents as List<EtkinlikYonetim.Domain.Entities.Event>;
